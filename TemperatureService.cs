@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace devicesMessages_ports
 {
@@ -50,7 +45,18 @@ namespace devicesMessages_ports
                         {
                             temperatures.AddOrUpdate(deviceId, (temperature, 1), (_, tuple) => (tuple.sum + temperature, tuple.count + 1));
                             var averageTemperature = temperatures[deviceId].sum / temperatures[deviceId].count;
-                            Console.WriteLine($"Device {deviceId}: average temperature is {averageTemperature:F2}");
+                            
+                            if (temperature > 27)
+                                Console.ForegroundColor = ConsoleColor.Red;
+
+                            Console.WriteLine("====================================");
+                            Console.WriteLine($"Device {deviceId}", Console.ForegroundColor);
+                            Console.WriteLine($"TimeStamp {DateTime.Now.ToString()}", Console.ForegroundColor);
+                            Console.WriteLine($"last reading is {temperature}", Console.ForegroundColor);
+                            Console.WriteLine($"average temperature is {averageTemperature:F2}", Console.ForegroundColor);
+                            Console.WriteLine($"Total messages from device is {temperatures[deviceId].count}");
+                            Console.WriteLine("====================================");
+                            Console.ResetColor();
                         }
 
                         message = "";

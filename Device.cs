@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace devicesMessages_ports
 {
@@ -35,7 +30,7 @@ namespace devicesMessages_ports
                 var message = $"{deviceId} {temperature:F2}\n";
                 var bytes = System.Text.Encoding.ASCII.GetBytes(message);
                 await socket.SendAsync(new ArraySegment<byte>(bytes), SocketFlags.None);
-                await Task.Delay(random.Next(500, 2000), cancellationToken); // wait for a random period of time before sending the next measurement
+                await Task.Delay(random.Next(2000, 4000), cancellationToken); // wait for a random period of time before sending the next measurement
             }
         }
     }
